@@ -1,0 +1,57 @@
+/*
+Script 1) 
+	Write a script that will create 3 polySpheres and 3 polyCubes.
+	The 3 polySphere should be place 5 units from each other in X. but not moved in Y or Z.
+	The 3 polyCubes should be on top of the spheres in the viewport (3 units above)
+	The first cube should have a red lambert material assigned to it,
+	The second cube should have a green lambert material assigned to it
+	The third cube should have a blue blinn material assigned to it.
+*/
+global proc mayaEx01()
+{
+    for ($i=0; $i<3; $i = $i + 1)
+    {
+        string $sphere = "Sphere_" + $i;
+        string $cube = "Cube_" + $i;
+        polySphere -r 1 -sx 60 -sy 20 -ax 0 1 0 -cuv 2 -ch 1 -name $sphere;
+        move -r -x ($i*5);
+        polyCube -w 1 -h 1 -d 1 -sx 1 -sy 1 -sz 1 -ax 0 1 0 -cuv 4 -ch 1 -name $cube;
+        move -r ($i*5) 3 0;
+        // setAttr "$sphere.translateX" $i*5;
+        // setAttr $cube.translateX $i*5;
+        // setAttr `$cube.translateY` 3;
+    };
+};
+
+/*
+Script 2) 
+	Write a script that will move the selected object / objects 1.5 units up (in Y)
+	(and keep moving it everytime it gets executed)
+*/
+global proc mayaEx02(string $objToMove[])
+{
+    move -r -y 1.5;
+};
+
+/*
+Script 3) 
+	Write a script that based on selection will print how many objects / nodes the user
+	has selected.
+*/
+global proc mayaEx03(string $objToCount[])
+{
+  print("Total object(s) selected is: " + size($objToCount) + "\n");
+};
+
+/*
+Script 4) 
+	Make a copy of the script above and modify the copy so that it now prints
+	how many joints are selected, how many meshes are selected and how many transforms
+	are selected.
+*/
+// global proc mayaEx04(string $objToCount[])
+// {
+//   print("Total joint(s) selected is: " + size($objToCount) + "\n");
+//   print("Total mesh(es) selected is: " + size($objToCount) + "\n");
+//   print("Total transform(s) selected is: " + size($objToCount) + "\n");
+// };
