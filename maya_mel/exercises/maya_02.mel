@@ -1,0 +1,57 @@
+/*
+Maya extra ex week 2:
+Write a script that is similar to the randomize script we looked at in class, 
+but instead of creating x number of duplicates, the script should randomize the
+position, rotation, and scale on objects that the user selects. So for example,
+if you have 100 boxes aligned in a 10 by 10 grid formation, the user should be
+able to pick and choose by selecting in the viewport which of those boxes should
+get randomized. 
+
+It could be with a UI and a randomize button if you want, but it's not a
+requirement.. A simple proc that can be run in the script editor is fine.
+*/
+global proc mayaEx02b()
+{
+    string $sel[] = `ls -sl`;
+    string $grpName = `group -em`;
+    parent $sel $grpName;
+    
+    setAttr ($grpName + ".scaleX") -1;
+    ungroup $grpName;
+    select $sel;
+};
+
+
+
+duplicate -rr;
+doGroup 0 1 1;
+select -r group1;
+setAttr "group1.scaleZ" -1;
+ungroup;
+move -r 0 0 1;
+select -add pCube1;
+polyUnite -ch 1 -mergeUVSets 1 -centerPivot;
+
+
+global proc mirrorObjects(string $objToMirror[])
+{
+    if (size($objToMirror) > 1)
+    {
+        error "Multiple objects are selected. Select only one object";
+    }
+    if (size($objToMirror) == 0)
+    {
+        error "No object selected. Select a single object";
+    }
+    
+    string $newObj[] = `duplicate -rr $objToMirror`;
+    string $grp = `doGroup 0 1 1`;
+    // string $grpName = `group -em`;
+    // parent $newObj $grpName;
+    
+    select -r $grp
+    setAttr ($grp + ".scaleX") -1;
+    ungroup $grp;
+    select -add $objToMirror;
+    polyUnite -ch 1 -mergeUVSets 1 -centerPivot;
+}

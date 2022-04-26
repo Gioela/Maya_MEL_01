@@ -1,0 +1,22 @@
+global proc matchPosition()
+{
+    string $sel[] = `ls -os -fl`;
+    
+    if (size($sel) < 2)
+    {
+        error "Select at least 2 elements";
+    }
+    string $target = $sel[size($sel) -1];
+    stringArrayRemoveAtIndex(size($sel) - 1, $sel);
+    vector $finalPos = << 0, 0, 0>>;
+    
+    for ($item in $sel)
+    {
+        vector $pos = `xform -q -ws -t $item`;
+        $finalPos += $pos;
+    }
+    $finalPos /= size($sel);
+    move -a -ws ($finalPos.x) ($finalPos.y) ($finalPos.z) $target;
+}
+
+matchPosition;

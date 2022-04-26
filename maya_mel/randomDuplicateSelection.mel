@@ -1,0 +1,29 @@
+global proc randomDuplicateSelection(string $sel[], int $numDuplicates, float $spacing)
+{
+    if (size($sel) > 1)
+    {
+        error "Multiple object selected. Select a single object";
+    }
+    if (size($sel) == 0)
+    {
+        error "No object selected. Select a single object";
+    }
+    for ($i=0; $i<$numDuplicates; $i++)
+    {
+        string $newObjs[] = `duplicate -rr $sel`;
+        vector $newPos = `rand <<-$spacing, -$spacing, -$spacing>> <<$spacing, $spacing, $spacing>>`;
+        move -a ($newPos.x) 0 ($newPos.z) $newObjs;
+    
+        float $newRotY = `rand -180 180`;
+        rotate -a 0 $newRotY 0 $newObjs;
+    
+        float $newScaleY = `rand 1 10`;
+        scale -a 1 $newScaleY 1 $newObjs;
+        move -r 0 ($newScaleY * 0.5) 0 $newObjs;
+    }
+    
+    select -r $sel;
+}
+
+// string $sel[] = `ls -sl`;
+randomDuplicateSelection(`ls -sl`, 60, 10);

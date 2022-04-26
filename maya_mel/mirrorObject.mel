@@ -1,0 +1,12 @@
+// global proc mirrorObject()
+// {
+//     string $sel[] = `ls -sl`;
+//     string $grpName = `group -em`;
+//     parent $sel $grpName;
+    
+//     setAttr ($grpName + ".scaleX") -1;
+//     ungroup $grpName;
+//     select $sel;
+// }
+
+// mirrorObject;
